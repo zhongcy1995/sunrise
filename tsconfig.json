@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "lib": ["es7", "dom"],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "$vtj/*": [
+        ".vtj/*"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
