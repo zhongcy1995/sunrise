@@ -114,6 +114,11 @@ const menuOptions = ref<MenuOption[]>([
           to: {
             name: 'Blog'
           },
+          onClick: () =>{
+            if (router.currentRoute.value.name === 'Blog') {
+              router.go(0)
+            }
+          },
           class:'n-menu-item-content-header'
         },
         { default: () => 'Blog' }
@@ -126,6 +131,11 @@ const menuOptions = ref<MenuOption[]>([
         {
           to: {
             name: 'Contact'
+          },
+          onClick: () =>{
+            if (router.currentRoute.value.name === 'Contact') {
+              router.go(0)
+            }
           },
           class:'n-menu-item-content-header'
         },
@@ -166,6 +176,11 @@ const initProductGroup = () => {
                   name: 'ProductGroup',
                   query: {
                     id: group.id
+                  }
+                },
+                onClick: () =>{
+                  if (router.currentRoute.value.name === 'ProductGroup' && router.currentRoute.value.query.id === group.id) {
+                    router.go(0)
                   }
                 }
               },
@@ -217,4 +232,8 @@ const initProductGroup = () => {
   color: #5d6688!important;
 }
 
+
+::v-deep(.n-menu-item-content-header:hover){
+  text-decoration: underline;
+}
 </style>

@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 const border = ref('')
 const router = useRouter()
@@ -36,6 +36,7 @@ const props = defineProps({
     saleTag: false
   })
 })
+
 
 const showProduct = (p) => {
   router.replace({

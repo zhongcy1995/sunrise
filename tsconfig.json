@@ -11,7 +11,8 @@
       "$vtj/*": [
         ".vtj/*"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src"

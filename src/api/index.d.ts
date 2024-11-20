@@ -33,3 +33,11 @@ interface ProductGroup {
     desc: string,
     bg: string
 }
+
+interface Blog {
+    title: string,
+    image: string,
+    date: string
+    desc: string,
+    file: string
+}

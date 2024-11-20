@@ -16,3 +16,4 @@ export const getProductsByGroup = (id:string): ProductGroup => {
 export const getProductGroups = ():ProductGroup[] => {
     return productGroups
 }
+
