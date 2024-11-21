@@ -15,7 +15,7 @@
       </n-grid-item>
     </n-grid>
   </div>
-  <div class="detail-container" v-if="!showContainer" >
+  <div class="detail-container" v-if="!showContainer" id="drawer-target">
     <div style="max-width: 600px" v-html="content"></div>
   </div>
   <foot></foot>
