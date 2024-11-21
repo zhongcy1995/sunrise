@@ -119,6 +119,7 @@ const showBlog = () => {
 }
 
 .detail-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
