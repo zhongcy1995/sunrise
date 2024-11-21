@@ -1,154 +1,156 @@
 <template>
   <NavMenu ></NavMenu>
-  <div class="container" id="drawer-target">
-    <n-grid cols="2" item-responsive style="background-color: #eff0f5">
-      <n-grid-item span="2 720:0" >
-        <n-carousel
-            ref="carousel"
-            :loop="false"
-            :show-dots="false"
-            :show-arrow="true"
-        >
-          <n-carousel-item  v-for="(item,i) in product.images" :key="i">
-            <div @click="show(item)" style="position: relative;padding: 1rem">
-              <img  class="carousel-img-c" :src="item" />
-              <div style="position: absolute;top: 8px;left: 16px;font-size: 30px;" >
+  <div id="drawer-target">
+    <div class="container" >
+      <n-grid cols="2" item-responsive style="background-color: #eff0f5">
+        <n-grid-item span="2 720:0" >
+          <n-carousel
+              ref="carousel"
+              :loop="false"
+              :show-dots="false"
+              :show-arrow="true"
+          >
+            <n-carousel-item  v-for="(item,i) in product.images" :key="i">
+              <div @click="show(item)" style="position: relative;padding: 1rem">
+                <img  class="carousel-img-c" :src="item" />
+                <div style="position: absolute;top: 8px;left: 16px;font-size: 30px;" >
+                  <n-icon >
+                    <SearchOutline/>
+                  </n-icon>
+                </div>
+              </div>
+            </n-carousel-item>
+          </n-carousel>
+          <div class="arrow-button">
+            <n-button style="margin-right: 1rem" text @click="doPrev">
+              <template #icon>
+                <n-icon><ChevronBack /></n-icon>
+              </template>
+            </n-button>
+            <div>{{ imageCount + '/' + product.images.length }}</div>
+            <n-button style="margin-left: 1rem" text @click="doNext">
+              <template #icon>
+                <n-icon><ChevronForward /></n-icon>
+              </template>
+            </n-button>
+          </div>
+        </n-grid-item>
+        <n-grid-item span="0 720:1">
+          <div class="div-image">
+            <div style="position: relative">
+              <n-image
+                  @mouseenter="showImage = true" @mouseleave="showImage =false"
+                  height="330"
+                  width="270"
+                  :src="selectedImage"
+              />
+              <div style="position: absolute;top: 8px;left: 16px;font-size: 30px;" v-if="showImage">
                 <n-icon >
                   <SearchOutline/>
                 </n-icon>
               </div>
             </div>
-          </n-carousel-item>
-        </n-carousel>
-        <div class="arrow-button">
-          <n-button style="margin-right: 1rem" text @click="doPrev">
-            <template #icon>
-              <n-icon><ChevronBack /></n-icon>
-            </template>
-          </n-button>
-          <div>{{ imageCount + '/' + product.images.length }}</div>
-          <n-button style="margin-left: 1rem" text @click="doNext">
-            <template #icon>
-              <n-icon><ChevronForward /></n-icon>
-            </template>
-          </n-button>
-        </div>
-      </n-grid-item>
-      <n-grid-item span="0 720:1">
-        <div class="div-image">
-          <div style="position: relative">
-            <n-image
-                @mouseenter="showImage = true" @mouseleave="showImage =false"
-                height="330"
-                width="270"
-                :src="selectedImage"
-            />
-            <div style="position: absolute;top: 8px;left: 16px;font-size: 30px;" v-if="showImage">
-              <n-icon >
-                <SearchOutline/>
-              </n-icon>
+            <n-carousel
+                :loop="false"
+                slides-per-view="3"
+                draggable
+                class="div-carousel"
+                :show-dots="false"
+                :show-arrow="true"
+            >
+              <n-carousel-item v-for="(item,index) in product.images" :key="index">
+                <img
+                    class="carousel-img"
+                    :src="item"
+                    @click="selectImage(item)"
+                >
+              </n-carousel-item>
+              <template #arrow="{ prev, next }">
+                <div >
+                  <n-button quaternary size="small"  style="position: absolute;top: 1.5rem;"  @click="prev">
+                    <n-icon><ChevronBack/></n-icon>
+                  </n-button>
+                  <n-button quaternary size="small" style="position: absolute;top: 1.5rem;right: 0.3rem"  @click="next">
+                    <n-icon><ChevronForward/></n-icon>
+                  </n-button>
+                </div>
+              </template>
+            </n-carousel>
+          </div>
+        </n-grid-item>
+        <n-grid-item span="2 720:1">
+          <div class="div-desc">
+            <div>
+              SunriseToilet
+            </div>
+            <div class="title">
+              {{product.name}}
+            </div>
+            <div style="margin-top: 1rem">
+              <n-flex>
+                <div style="font-size: medium;text-decoration-line: line-through;">{{product.cutPrice}}</div>
+                <div  style="font-size: large;">{{product.price}}</div>
+                <div><span v-if="product.saleTag" class="sale-tag">Sale</span></div>
+              </n-flex>
+            </div>
+            <div class="desc-content">
+              {{product.desc}}
             </div>
           </div>
-          <n-carousel
-              :loop="false"
-              slides-per-view="3"
-              draggable
-              class="div-carousel"
-              :show-dots="false"
-              :show-arrow="true"
-          >
-            <n-carousel-item v-for="(item,index) in product.images" :key="index">
-              <img
-                  class="carousel-img"
-                  :src="item"
-                  @click="selectImage(item)"
-              >
-            </n-carousel-item>
-            <template #arrow="{ prev, next }">
-              <div >
-                <n-button quaternary size="small"  style="position: absolute;top: 1.5rem;"  @click="prev">
-                  <n-icon><ChevronBack/></n-icon>
-                </n-button>
-                <n-button quaternary size="small" style="position: absolute;top: 1.5rem;right: 0.3rem"  @click="next">
-                  <n-icon><ChevronForward/></n-icon>
-                </n-button>
-              </div>
-            </template>
-          </n-carousel>
-        </div>
-      </n-grid-item>
-      <n-grid-item span="2 720:1">
-        <div class="div-desc">
-          <div>
-            SunriseToilet
-          </div>
-          <div class="title">
-            {{product.name}}
-          </div>
-          <div style="margin-top: 1rem">
-            <n-flex>
-              <div style="font-size: medium;text-decoration-line: line-through;">{{product.cutPrice}}</div>
-              <div  style="font-size: large;">{{product.price}}</div>
-              <div><span v-if="product.saleTag" class="sale-tag">Sale</span></div>
-            </n-flex>
-          </div>
-          <div class="desc-content">
-            {{product.desc}}
-          </div>
-        </div>
-      </n-grid-item>
-    </n-grid>
-  </div>
-  <div class="div-detail">
-    <div class="div-detail-container">
-      <n-collapse >
-        <template #header-extra>
-          <n-icon class="arrow"><ChevronDown /></n-icon>
-        </template>
-        <n-collapse-item  title="Specifications" name="1">
-          <template #arrow >
-            <n-icon>
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L7 21l-4-4z"></path><path d="M16 7l-1.5-1.5"></path><path d="M13 10l-1.5-1.5"></path><path d="M10 13l-1.5-1.5"></path><path d="M7 16l-1.5-1.5"></path></g></svg>
-            </n-icon>
-          </template>
-          <ul v-for="(item,index) in product.detail.spec" :key="index">
-            <li>
-              <span>{{item.label + ':'}}</span>
-              <span style="margin-left: 0.5rem;color:#465077;">{{item.value}}</span>
-            </li>
-          </ul>
-        </n-collapse-item>
-        <n-collapse-item title="Material" name="2">
-          <template #arrow >
-            <n-icon ><Cog /></n-icon>
-          </template>
-          <n-flex>
-            <div >
-              {{product.detail.material}}
-            </div>
-          </n-flex>
-        </n-collapse-item>
-        <n-collapse-item title="Warranty " name="3">
-          <template #arrow>
-            <n-icon><HeartOutline /></n-icon>
-          </template>
-          <div >
-            {{product.detail.warranty}}
-          </div>
-        </n-collapse-item>
-        <n-collapse-item title="Supply Ability" name="4">
-          <template #arrow>
-            <n-icon>
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M29.92 16.61l-3-7A1 1 0 0 0 26 9h-3V7a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v17a1 1 0 0 0 1 1h2.14a4 4 0 0 0 7.72 0h6.28a4 4 0 0 0 7.72 0H29a1 1 0 0 0 1-1v-7a1 1 0 0 0-.08-.39zM23 11h2.34l2.14 5H23zM9 26a2 2 0 1 1 2-2a2 2 0 0 1-2 2zm10.14-3h-6.28a4 4 0 0 0-7.72 0H4V8h17v12.56A4 4 0 0 0 19.14 23zM23 26a2 2 0 1 1 2-2a2 2 0 0 1-2 2zm5-3h-1.14A4 4 0 0 0 23 20v-2h5z" fill="currentColor"></path></svg>
-            </n-icon>
-          </template>
-          <div >
-            {{product.detail.supply}}
-          </div>
-        </n-collapse-item>
-      </n-collapse>
+        </n-grid-item>
+      </n-grid>
     </div>
+    <div class="div-detail">
+      <div class="div-detail-container">
+        <n-collapse >
+          <template #header-extra>
+            <n-icon class="arrow"><ChevronDown /></n-icon>
+          </template>
+          <n-collapse-item  title="Specifications" name="1">
+            <template #arrow >
+              <n-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L7 21l-4-4z"></path><path d="M16 7l-1.5-1.5"></path><path d="M13 10l-1.5-1.5"></path><path d="M10 13l-1.5-1.5"></path><path d="M7 16l-1.5-1.5"></path></g></svg>
+              </n-icon>
+            </template>
+            <ul v-for="(item,index) in product.detail.spec" :key="index">
+              <li>
+                <span>{{item.label + ':'}}</span>
+                <span style="margin-left: 0.5rem;color:#465077;">{{item.value}}</span>
+              </li>
+            </ul>
+          </n-collapse-item>
+          <n-collapse-item title="Material" name="2">
+            <template #arrow >
+              <n-icon ><Cog /></n-icon>
+            </template>
+            <n-flex>
+              <div >
+                {{product.detail.material}}
+              </div>
+            </n-flex>
+          </n-collapse-item>
+          <n-collapse-item title="Warranty " name="3">
+            <template #arrow>
+              <n-icon><HeartOutline /></n-icon>
+            </template>
+            <div >
+              {{product.detail.warranty}}
+            </div>
+          </n-collapse-item>
+          <n-collapse-item title="Supply Ability" name="4">
+            <template #arrow>
+              <n-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32"><path d="M29.92 16.61l-3-7A1 1 0 0 0 26 9h-3V7a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v17a1 1 0 0 0 1 1h2.14a4 4 0 0 0 7.72 0h6.28a4 4 0 0 0 7.72 0H29a1 1 0 0 0 1-1v-7a1 1 0 0 0-.08-.39zM23 11h2.34l2.14 5H23zM9 26a2 2 0 1 1 2-2a2 2 0 0 1-2 2zm10.14-3h-6.28a4 4 0 0 0-7.72 0H4V8h17v12.56A4 4 0 0 0 19.14 23zM23 26a2 2 0 1 1 2-2a2 2 0 0 1-2 2zm5-3h-1.14A4 4 0 0 0 23 20v-2h5z" fill="currentColor"></path></svg>
+              </n-icon>
+            </template>
+            <div >
+              {{product.detail.supply}}
+            </div>
+          </n-collapse-item>
+        </n-collapse>
+      </div>
 
+    </div>
   </div>
 
   <div class="div-recommended">
@@ -162,7 +164,12 @@
   <n-modal v-model:show="showImageModel">
     <n-card >
       <template #cover>
-        <img :src="showItem">
+        <div >
+          <n-icon size="30" style="position:absolute;top: 0;right: 0" @click="showImageModel = false">
+            <Close />
+          </n-icon>
+          <img :src="showItem">
+        </div>
       </template>
     </n-card>
   </n-modal>
@@ -174,7 +181,7 @@ import {nextTick, onMounted, ref, watch, watchEffect} from "vue";
 import {useRoute} from "vue-router";
 import {getProductById} from "@/api/api";
 import Foot from "@/views/product/Foot.vue";
-import {ChevronForward,ChevronBack,Cog,HeartOutline,ChevronDown,SearchOutline} from '@vicons/ionicons5'
+import {ChevronForward,ChevronBack,Cog,HeartOutline,ChevronDown,SearchOutline,Close} from '@vicons/ionicons5'
 import type {ButtonProps}  from "naive-ui";
 import ProductList from "@/views/product/ProductList.vue";
 import router from "@/router";
@@ -190,10 +197,7 @@ onMounted(  async () => {
   watch(()=>carousel.value.getCurrentIndex(),(o,n)=>{
     imageCount.value = o + 1
   })
-  watch(()=>route.query.id,(o,n)=>{
-    product.value = getProductById(o as string)
-    router.go(0)
-  })
+
 })
 
 

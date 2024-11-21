@@ -6,6 +6,7 @@ export const P0202:Product =  {
     id:'p0202',
     name:'Back-to-Back Hand Wash Station',
     imageUrl: IMG_1044,
+    imageUrl2: IMG_1087,
     price: '$309.00',
     cutPrice: '$289.00',
     saleTag: true,

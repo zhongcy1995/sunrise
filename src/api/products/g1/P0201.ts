@@ -5,6 +5,7 @@ export const P0201:Product =  {
     id:'p0201',
     name:'Standard model PT-360',
     imageUrl: IMG_1087,
+    imageUrl2: IMG_1044,
     price: '$899.00',
     cutPrice: '$659.00',
     saleTag: true,

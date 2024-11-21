@@ -1,12 +1,15 @@
 <template>
   <div class="product-card-container">
     <n-flex :wrap="false">
-      <n-card   size="small" >
+      <n-card   size="small" @mouseleave="show = false" @mouseenter="show = true" @click="showProduct(card)">
         <template #cover>
           <span v-if="props.card.saleTag" class="sale-tag">Sale</span>
-          <img :src="card.imageUrl" >
+          <Transition name="fade" mode="out-in">
+            <img v-if="show" :src="card.imageUrl" >
+            <img v-else :src="card.imageUrl2" >
+          </Transition>
         </template>
-        <div class="product-image-name" @click="showProduct(card)">{{card.name}}</div>
+        <div :class="show ? 'product-image-name product-image-name-hover': 'product-image-name'" >{{card.name}}</div>
         <div style="margin-top: 1rem">
           <n-flex >
             <div class="product-price-off">{{props.card.cutPrice}}</div>
@@ -29,10 +32,12 @@ onMounted(() => {
 const props = defineProps({
   card: Object,
   default: () => ({
+    id: '',
     name: '',
     imageUrl: '',
     price: '',
     cutPrice: '',
+    imageUrl2: '',
     saleTag: false
   })
 })
@@ -42,10 +47,15 @@ const showProduct = (p) => {
   router.replace({
     name:'Product',
     query: {
-      id: p.id
+      id: p.id,
+      t: new Date().getTime()
     }
   })
 }
+
+
+const show = ref(false)
+
 </script>
 
 <style scoped>
@@ -117,7 +127,21 @@ const showProduct = (p) => {
   color: #0e1b4d;
 
 }
-.product-image-name:hover{
+.product-image-name-hover{
   text-decoration: underline
 }
+
+
+/*动画开始*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s cubic-bezier(1,0.8, 0.5, 1);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+/*动画结束*/
+
 </style>

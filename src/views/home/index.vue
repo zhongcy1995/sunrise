@@ -14,11 +14,11 @@
     <div class="div-h1">Accessories (more are coming soon...)</div>
     <div style="margin-left: 2rem;">
       <n-flex :wrap="false">
-        <n-card  v-for="(item,index) in items" size="small" :key="index">
+        <n-card @mouseleave="shows[index] =!shows[index]" @mouseenter="shows[index] =!shows[index]" v-for="(item,index) in items" size="small" :key="index">
           <template #cover>
-            <img :src="item.imageUrl">
+            <img :class="shows[index]? 'Anim' : 'uAnim'" :src="item.imageUrl">
           </template>
-          <div style="margin-top: 1rem;font-weight: bold;font-size: 15px">{{item.name}}</div>
+          <div  :class="shows[index] ? 'title title-underline' : 'title'" >{{item.name}}</div>
           <div style="margin-top: 1rem">{{item.price}}</div>
         </n-card>
       </n-flex>
@@ -42,9 +42,17 @@ import DescDiv3 from "@/views/home/DescDiv3.vue";
 import DescDiv4 from "@/views/home/DescDiv4.vue";
 import Foot from "@/views/home/Foot.vue";
 import {getProductsByIds} from "@/api/api";
+import {onMounted, ref} from "vue";
 
 const items = getProductsByIds(['p0501','p0502'])
 
+const shows = ref<Boolean[]>([])
+
+onMounted(()=>{
+  items.forEach(i=>{
+    shows.value.push(false)
+  })
+})
 
 </script>
 
@@ -71,6 +79,48 @@ const items = getProductsByIds(['p0501','p0502'])
   border: 1px solid #0e1b4d;
   margin-bottom: 2rem;
   margin-right: 2rem;
+}
+
+
+
+/*动画开始*/
+.uAnim{
+  animation: showMsg2 0.8s ;
+  animation-fill-mode: forwards
+}
+
+@keyframes showMsg2 {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+
+.Anim{
+  animation: showMsg 0.6s ;
+  animation-fill-mode: forwards
+}
+
+@keyframes showMsg {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+/*动画结束*/
+.title {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 15px
+}
+
+.title-underline {
+  text-decoration: underline;
 }
 
 </style>

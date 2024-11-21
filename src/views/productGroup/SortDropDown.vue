@@ -11,10 +11,11 @@
       </n-button>
     </div>
     <n-drawer v-model:show="active"
-              :width="400"
+              style="width: 80%"
               :placement="placement"
               :trap-focus="false"
               :block-scroll="true"
+              :on-after-leave = "sortUnShow"
     >
       <n-drawer-content closable>
         <template #header>
@@ -70,14 +71,16 @@
               </n-button>
             </n-grid-item>
             <n-grid-item  span="1" >
-
+              <n-button round  size="large" @click="apply">
+                Apply
+              </n-button>
             </n-grid-item>
           </n-grid>
         </template>
       </n-drawer-content >
 
       <!-- Availability -->
-      <n-drawer v-model:show="activeAvailability" :width="400" style="margin-top: 5rem" :show-mask="false">
+      <n-drawer v-model:show="activeAvailability"  style="margin-top: 5rem;width: 80%" :show-mask="false">
         <n-drawer-content >
           <n-grid cols="6"  >
             <n-grid-item span="1">
@@ -115,7 +118,7 @@
       </n-drawer>
 
       <!-- Price -->
-      <n-drawer v-model:show="activePrice" :width="400" style="margin-top: 5rem" :show-mask="false">
+      <n-drawer v-model:show="activePrice"  style="margin-top: 5rem;width: 80%" :show-mask="false">
         <n-drawer-content >
           <n-grid cols="6"  >
             <n-grid-item span="1">
@@ -133,14 +136,14 @@
           <div class="price-range">
             <n-grid cols="2" >
               <n-grid-item span="1">
-                <n-input-number min="0" :precision="2" :max="maxPrice" v-model:value="priceStart"  :on-blur="inputPrice" round style="width: 10rem" placeholder="From" :input-props="style">
+                <n-input-number min="0" :precision="2" :max="maxPrice" v-model:value="priceStart"  :on-blur="inputPrice" round style="width: 7rem" placeholder="From" :input-props="style">
                   <template #prefix>
                     $
                   </template>
                 </n-input-number>
               </n-grid-item>
               <n-grid-item span="1">
-                <n-input-number min="0" :precision="2" :max="maxPrice" v-model:value="priceEnd"   :on-blur="inputPrice" round style="width: 10rem" placeholder="To" :input-props="style">
+                <n-input-number min="0" :precision="2" :max="maxPrice" v-model:value="priceEnd"   :on-blur="inputPrice" round style="width: 7rem" placeholder="To" :input-props="style">
                   <template #prefix>
                     $
                   </template>
@@ -230,7 +233,13 @@ const selectedCount = ref(0)
 const saleCheck = ref(false)
 const unSaleCheck = ref(false)
 
+
 const onUpdateCheckOfSale = (value) => {
+  saleCheck.value = value
+}
+
+
+const applyForCheckOfSale = (value) => {
   // 过滤未上架的
   if (value) {
     condition.value.unSale = true
@@ -249,12 +258,14 @@ const onUpdateCheckOfSale = (value) => {
       index:1
     })
   }
-  saleCheck.value = value
-  sort()
 }
 
 
 const onUpdateCheckOfUnSale = (value) => {
+  unSaleCheck.value = value
+}
+
+const applyForCheckOfUnSale = (value) => {
   // 过滤未上架的
   if (value) {
     condition.value.sale = true
@@ -273,9 +284,9 @@ const onUpdateCheckOfUnSale = (value) => {
       index:1
     })
   }
-  unSaleCheck.value = value
-  sort()
+
 }
+
 
 
 const saleCount = ref(0)
@@ -317,35 +328,37 @@ const style = ref({
   }
 })
 
+
+const priceFrom = ref('$0.00')
+const priceTo = ref('')
 const inputPrice = () => {
-  if (priceStart.value === null && priceEnd.value === null){
-    return
-  }
-  let priceFrom = '$0.00'
-  let priceTo = maxPriceStr.value
   if (priceStart.value) {
-    priceFrom = '$' + priceStart.value.toLocaleString('en-US',{
+    priceFrom.value = '$' + priceStart.value.toLocaleString('en-US',{
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })
     condition.value.priceStart = priceStart.value
   }
   if (priceEnd.value){
-    priceTo = '$' + priceEnd.value.toLocaleString('en-US',{
+    priceTo.value = '$' + priceEnd.value.toLocaleString('en-US',{
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })
     condition.value.priceEnd = priceEnd.value
   }
+}
+
+const applyForSalePrice = () => {
+  if (priceStart.value === null && priceEnd.value === null){
+    return
+  }
   addTag({
-    label: priceFrom + '-' + priceTo,
+    label: priceFrom.value + '-' + (priceTo.value === '' ? maxPriceStr.value : priceTo.value),
     key:'Price',
     index:1
   })
   EventBus.emit('addFilter',condition.value)
-  sort()
 }
-
 
 
 EventBus.on('clear_filterTag',(val)=>{
@@ -375,11 +388,19 @@ const clickClear= () => {
   EventBus.emit('clear_SortDropDown')
 }
 
+const sortUnShow = () =>{
+  if (!applied.value) {
+    clear()
+  }
+}
+
 const clear = () => {
   resetPrice()
   resetSaleTag()
+  resetSortOptions()
   sort()
 }
+
 
 // 排序策略
 const sortOptions = ref([])
@@ -450,9 +471,18 @@ const initSortOptions = () => {
 const selectStrategy = (value) => {
   sortStore.$state = strategies.find(strategy=> strategy.key === value)
   sortValue.value = sortStore.key
-  sort()
 }
 
+
+const applied = ref(false)
+const apply = () => {
+  applied.value = true
+  applyForCheckOfSale(saleCheck.value)
+  applyForCheckOfUnSale(unSaleCheck.value)
+  applyForSalePrice()
+  sort()
+  active.value = false
+}
 
 const sort = () => {
   filterStore.$state = {...condition.value}
@@ -474,6 +504,9 @@ const resetSaleTag = () => {
   unSaleCheck.value = false
 }
 
+const resetSortOptions = () =>{
+  sortValue.value = strategies[0].key
+}
 
 </script>
 

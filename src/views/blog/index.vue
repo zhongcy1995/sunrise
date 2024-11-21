@@ -4,11 +4,11 @@
     <div style="font-size: xx-large;font-weight: bold;margin-bottom: 1rem">News</div>
     <n-grid :x-gap="48" :y-gap="32" cols="2" item-responsive>
       <n-grid-item v-for="(item,index) in blogList" :key="index"  span="2 600:1">
-        <n-card @click="showBlog" @mouseenter="titleUnderLine[index] = true" @mouseleave="titleUnderLine[index]  = false">
+        <n-card @click="showBlog" @mouseleave="shows[index] =!shows[index]" @mouseenter="shows[index] =!shows[index]">
           <template #cover >
             <img  :class="shows[index]? 'Anim' : 'uAnim'"  :src="item.image">
           </template>
-          <div :class="titleUnderLine[index] ? 'title title-underline' : 'title'" @mouseleave="shows[index] =!shows[index]" @mouseenter="shows[index] =!shows[index]">{{item.title}}</div>
+          <div :class="shows[index] ? 'title title-underline' : 'title'" >{{item.title}}</div>
           <div class="div-date">{{item.date}}</div>
           <div>{{item.desc}}</div>
         </n-card>
