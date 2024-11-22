@@ -135,7 +135,7 @@ const show = ref(false)
 /*动画开始*/
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.2s cubic-bezier(1,0.8, 0.5, 1);
+  transition: all 0.2s cubic-bezier(1,0.5, 0.8, 1);
 }
 
 .fade-enter-from,

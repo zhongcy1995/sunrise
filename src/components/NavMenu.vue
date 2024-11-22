@@ -1,6 +1,6 @@
 <template>
   <div class="top-title">#1 Portable Sanitations Manufacturer in China.</div>
-  <n-grid x-gap="12" :cols="5" item-responsive>
+  <n-grid x-gap="12" :cols="5" item-responsive  id="drawer-target-search">
     <n-grid-item class="menu-item" span="2 250:1 1000:0">
       <n-button v-if="!active" class="menu-button" icon-placement="right" secondary strong @click="activate">
         <template #icon>
@@ -34,7 +34,11 @@
       />
     </n-grid-item>
     <n-grid-item span="3 250:2">
-      <div class="light-green" />
+      <div class="search-icon">
+        <n-icon style="cursor: pointer;margin-left: 1rem" size="20" @click="searchActivate">
+          <Search/>
+        </n-icon>
+      </div>
     </n-grid-item>
   </n-grid>
 
@@ -53,6 +57,19 @@
       />
     </n-drawer-content>
   </n-drawer>
+
+
+  <n-drawer v-model:show="searchActive"
+            :height="100"
+            :placement="'top'"
+            :trap-focus="false"
+            :block-scroll="true"
+            to="#drawer-target-search"
+  >
+    <n-drawer-content style="background-color: #eff0f5">
+      <search-product></search-product>
+    </n-drawer-content>
+  </n-drawer>
 </template>
 
 <script lang="ts" setup>
@@ -68,8 +85,11 @@ import { NIcon } from 'naive-ui'
 import {RouterLink, useRoute, useRouter} from 'vue-router'
 import type { DrawerPlacement } from 'naive-ui'
 import {getProductGroups} from "@/api/api";
+import SearchProduct from "@/components/Search.vue";
+import {Search,ArrowForward} from '@vicons/ionicons5'
+import EventBus from '@/assets/common/event-bus'
 
-
+const searchActive = ref(false)
 const active = ref(false)
 const placement = ref<DrawerPlacement>('left')
 const showProduct = ref(false)
@@ -80,6 +100,13 @@ const activate = () => {
   active.value = true
 
 }
+const searchActivate = () => {
+  searchActive.value = true
+}
+EventBus.on('close_Search',(val)=>{
+  searchActive.value = false
+})
+
 const close = () => {
   active.value = false
 }
@@ -194,9 +221,11 @@ const initProductGroup = () => {
 </script>
 
 <style scoped>
-.light-green {
+.search-icon {
   height: 3rem;
-  background-color: rgba(0, 128, 0, 0.12);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 .green {
   height: 3rem;
@@ -225,7 +254,7 @@ const initProductGroup = () => {
 .top-title {
   text-align:center;
   background-color: red;
-  padding: 0.267rem;
+  padding: 0.3rem;
 }
 
 :deep(.n-menu-item-content-header){

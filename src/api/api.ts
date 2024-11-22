@@ -1,5 +1,8 @@
 import {productGroups, products} from "@/api/products";
 
+export const getProductList = ():Product[] => {
+    return products
+}
 
 export const getProductsByIds = (ids:string[]): Product[] => {
     return  products.filter((product) => ids.includes(product.id))
