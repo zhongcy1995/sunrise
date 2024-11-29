@@ -1,5 +1,7 @@
 <template>
-  <RouterView :key="route.fullPath"/>
+  <n-message-provider>
+    <RouterView :key="route.fullPath"/>
+  </n-message-provider>
 </template>
 
 <script setup>

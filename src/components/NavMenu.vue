@@ -1,6 +1,6 @@
 <template>
   <div class="top-title">#1 Portable Sanitations Manufacturer in China.</div>
-  <n-grid x-gap="12" :cols="5" item-responsive  id="drawer-target-search">
+  <n-grid x-gap="12" :cols="5" item-responsive  id="drawer-target-search" style="background-color:  #eff0f5">
     <n-grid-item class="menu-item" span="2 250:1 1000:0">
       <n-button v-if="!active" class="menu-button" icon-placement="right" secondary strong @click="activate">
         <template #icon>
@@ -73,20 +73,14 @@
 </template>
 
 <script lang="ts" setup>
-import {
-    Menu as MenuIcon,
-    CaretDownOutline,
-    Close
-} from '@vicons/ionicons5'
+import {Close, Menu as MenuIcon, Search} from '@vicons/ionicons5'
 import imgUrl from "@/static/images/title.png"
-import type { MenuOption } from 'naive-ui'
-import {h, onBeforeUnmount, onMounted, ref} from 'vue'
-import { NIcon } from 'naive-ui'
-import {RouterLink, useRoute, useRouter} from 'vue-router'
-import type { DrawerPlacement } from 'naive-ui'
+import type {DrawerPlacement, MenuOption} from 'naive-ui'
+import {NIcon} from 'naive-ui'
+import {h, onMounted, ref, Text} from 'vue'
+import {RouterLink, useRouter} from 'vue-router'
 import {getProductGroups} from "@/api/api";
 import SearchProduct from "@/components/Search.vue";
-import {Search,ArrowForward} from '@vicons/ionicons5'
 import EventBus from '@/assets/common/event-bus'
 
 const searchActive = ref(false)
@@ -112,7 +106,15 @@ const close = () => {
 }
 const menuOptions = ref<MenuOption[]>([
   {
-    label: 'Product',
+    label: () => h(
+        'div', {
+          class:'n-menu-item-content-header',
+          style: {
+            textDecoration: activeKey.value === 'Product' ? 'underline' : ''
+          }
+        },
+        { default: () => 'Product' }
+    ),
     key: 'Product',
     children: []
   },
@@ -128,7 +130,10 @@ const menuOptions = ref<MenuOption[]>([
               router.go(0)
             }
           },
-          class:'n-menu-item-content-header'
+          class:'n-menu-item-content-header',
+          style: {
+            textDecoration: activeKey.value === 'HomePage' ? 'underline' : ''
+          }
         },
         { default: () => 'Home' }
     ),
@@ -145,8 +150,12 @@ const menuOptions = ref<MenuOption[]>([
             if (router.currentRoute.value.name === 'Blog') {
               router.go(0)
             }
+
           },
-          class:'n-menu-item-content-header'
+          class: 'n-menu-item-content-header',
+          style: {
+              textDecoration: activeKey.value === 'Blog' ? 'underline' : ''
+          }
         },
         { default: () => 'Blog' }
     ),
@@ -164,7 +173,10 @@ const menuOptions = ref<MenuOption[]>([
               router.go(0)
             }
           },
-          class:'n-menu-item-content-header'
+          class:'n-menu-item-content-header',
+          style: {
+            textDecoration: activeKey.value === 'Contact' ? 'underline' : ''
+          }
         },
         { default: () => 'Contact us' }
     ),
@@ -173,12 +185,29 @@ const menuOptions = ref<MenuOption[]>([
 ])
 const activeKey = ref<string | null>(null)
 
+const getActiveKey = () => {
+  switch (router.currentRoute.value.name) {
+    case "HomePage":
+      activeKey.value = "HomePage"
+      break;
+    case "Blog":
+      activeKey.value = "Blog"
+      break;
+    case "Contact":
+      activeKey.value = "Contact"
+      break;
+    default:
+      activeKey.value = "Product"
+  }
+}
+
 // 屏幕宽度
 const windowWidth = ref(0)
 // 屏幕高度
 const windowHeight = ref(0)
 // 生命周期
 onMounted(() => {
+  getActiveKey()
   initProductGroup()
   getWindowResize()
   window.addEventListener('resize', getWindowResize)
@@ -261,8 +290,16 @@ const initProductGroup = () => {
   color: #5d6688!important;
 }
 
+.active-header {
+  text-decoration: underline;
+}
 
 ::v-deep(.n-menu-item-content-header:hover){
+  text-decoration: underline;
+}
+
+
+::v-deep(.n-menu-item-content-header:active){
   text-decoration: underline;
 }
 </style>

@@ -119,6 +119,7 @@ const show = ref(false)
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   color: #ffffff;
+  z-index: 1;
 }
 .product-image-name{
   margin-top: 1rem;

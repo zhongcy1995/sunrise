@@ -27,4 +27,17 @@ export const useSortStrategyStore = defineStore('sortStrategy', {
 })
 
 
+export const useContactStore = defineStore('contact', {
+    // 其他配置...
+    state: () => (
+        {
+            name:  null,
+            email: null,
+            phone: null,
+            comment: null
+        }
+    ),
+})
+
+
 

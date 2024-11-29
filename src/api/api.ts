@@ -20,3 +20,11 @@ export const getProductGroups = ():ProductGroup[] => {
     return productGroups
 }
 
+
+export const getProductBySearchVal = (val):Product[] => {
+    let regex = new RegExp('.*'+val +'.*',"i")
+    return products.filter(p=> p.name.match(regex))
+}
+
+
+

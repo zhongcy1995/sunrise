@@ -64,14 +64,17 @@
           </n-grid>
         </div>
         <template #footer>
-          <n-grid style="margin-left: 1rem" cols="2">
+          <n-grid style="margin-left: 1rem" cols="3">
             <n-grid-item span="1" >
               <n-button round info size="large" @click="clickClear">
                 Remove all
               </n-button>
             </n-grid-item>
+            <n-grid-item span="1">
+
+            </n-grid-item>
             <n-grid-item  span="1" >
-              <n-button round  size="large" @click="apply">
+              <n-button round  type="info" size="large" @click="apply">
                 Apply
               </n-button>
             </n-grid-item>

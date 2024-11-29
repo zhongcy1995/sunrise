@@ -182,9 +182,8 @@ import {useRoute} from "vue-router";
 import {getProductById} from "@/api/api";
 import Foot from "@/views/product/Foot.vue";
 import {ChevronForward,ChevronBack,Cog,HeartOutline,ChevronDown,SearchOutline,Close} from '@vicons/ionicons5'
-import type {ButtonProps}  from "naive-ui";
 import ProductList from "@/views/product/ProductList.vue";
-import router from "@/router";
+
 
 
 const route = useRoute()
@@ -199,6 +198,7 @@ onMounted(  async () => {
   })
 
 })
+
 
 
 // 屏幕宽度

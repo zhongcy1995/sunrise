@@ -27,7 +27,6 @@ import Foot from "@/views/blog/Foot.vue";
 import {blogList} from "@/api/blog";
 import {onMounted, ref} from "vue";
 import MarkdownIt from "markdown-it";
-import { marked } from 'marked'
 
 
 
@@ -35,8 +34,6 @@ const shows = ref<Boolean[]>([])
 const titleUnderLine = ref<Boolean[]>([])
 const showContainer = ref(true)
 // 显示描述md
-const dsmd = new MarkdownIt();
-const dsContent = ref(dsmd.render(''));
 const md = new MarkdownIt();
 const content = ref(md.render(''));
 onMounted(()=>{

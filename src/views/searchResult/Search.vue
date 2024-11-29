@@ -1,7 +1,7 @@
 <template>
   <div class="container" >
     <n-auto-complete
-        :style="{width: widthVar}"
+        style="width: 20rem;"
         v-model:value="searchValue"
         :options="options"
         :render-label="renderLabel"
@@ -23,9 +23,6 @@
         </n-icon>
       </template>
     </n-auto-complete>
-    <n-icon size="30" style="margin-left: 1rem" @click="closeSearch">
-      <CloseOutline/>
-    </n-icon>
   </div>
 
 
@@ -44,32 +41,6 @@ import {products} from "@/api/products";
 import {useRouter} from "vue-router";
 
 const searchValue = ref('')
-const closeSearch =() => {
-  EventBus.emit('close_Search')
-}
-
-const widthVar = ref('90%')
-const paddingVar = ref('2rem')
-// 屏幕宽度
-const windowWidth = ref(0)
-// 屏幕高度
-const windowHeight = ref(0)
-// 获取屏幕尺寸
-const getWindowResize = function () {
-  windowWidth.value = window.innerWidth
-  windowHeight.value = window.innerHeight
-  if (windowWidth.value < 720) {
-    widthVar.value = '100%'
-    paddingVar.value = '0'
-  }else {
-    widthVar.value = '60%'
-    paddingVar.value = '2rem'
-  }
-}
-
-onMounted(() => {
-  getWindowResize()
-})
 
 const search = ref<HTMLAttributes>({
   id:'searchDiv',
@@ -92,7 +63,7 @@ const renderLabel = (option: SelectOption):VNodeChild => {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: '0.5rem',
-        marginBottom: '0.5rem',
+        marginBottom: '0.5rem'
       }
     }, [
       h(NImage, { width: '50',src:imageUrl }),
@@ -197,8 +168,8 @@ const getShow = (value: string) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: v-bind(paddingVar);
-  padding-right: v-bind(paddingVar);
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .div-search{
