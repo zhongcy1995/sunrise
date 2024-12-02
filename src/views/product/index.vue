@@ -8,7 +8,7 @@
               ref="carousel"
               :loop="false"
               :show-dots="false"
-              :show-arrow="true"
+              :show-arrow="false"
           >
             <n-carousel-item  v-for="(item,i) in product.images" :key="i">
               <div @click="show(item)" style="position: relative;padding: 1rem">
