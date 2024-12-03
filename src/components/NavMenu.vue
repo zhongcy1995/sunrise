@@ -19,6 +19,7 @@
     </n-grid-item>
     <n-grid-item class="menu-item" span="0 250:2 1000:1">
       <n-image
+          @click="goHome"
           :preview-disabled="true"
           width="100"
           :src="imgUrl"
@@ -104,6 +105,15 @@ EventBus.on('close_Search',(val)=>{
 const close = () => {
   active.value = false
 }
+
+const goHome = () => {
+  if (router.currentRoute.value.name === 'HomePage') {
+    router.go(0)
+  }else {
+    router.replace('/')
+  }
+}
+
 const menuOptions = ref<MenuOption[]>([
   {
     label: () => h(
