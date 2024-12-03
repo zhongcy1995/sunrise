@@ -27,6 +27,7 @@
     <product-list></product-list>
   </div>
   <foot></foot>
+  <n-back-top />
 </template>
 
 <script lang="ts" setup>

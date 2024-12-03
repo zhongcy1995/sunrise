@@ -19,6 +19,7 @@
     <div style="max-width: 600px" v-html="content"></div>
   </div>
   <foot></foot>
+  <n-back-top />
 </template>
 
 <script lang="ts" setup>

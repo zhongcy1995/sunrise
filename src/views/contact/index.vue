@@ -27,53 +27,6 @@
               :rules="rules"
       >
 
-<!--        <n-flex :style="{paddingLeft: padding,paddingRight: padding}">-->
-<!--          <n-input-->
-<!--              :style="{height: '3.5rem',width: width}"-->
-<!--              v-model:value="modelRef.name"-->
-<!--              @keydown.enter.prevent-->
-<!--              round-->
-<!--              size="large"-->
-<!--              :placeholder="null"-->
-<!--              @focus="onFocus(0)"-->
-<!--              @blur="onBlurName"-->
-<!--          />-->
-<!--          <n-input-->
-<!--              :style="{height: '3.5rem',width: width}"-->
-<!--              v-model:value="modelRef.email"-->
-<!--              @keydown.enter.prevent-->
-<!--              round-->
-<!--              size="large"-->
-<!--              :placeholder="null"-->
-<!--              @focus="onFocus(1)"-->
-<!--              @blur="onBlurEmail"-->
-<!--          />-->
-<!--          <n-input-->
-<!--              style="height: 3.5rem"-->
-<!--              v-model:value="modelRef.phone"-->
-<!--              @keydown.enter.prevent-->
-<!--              round-->
-<!--              size="large"-->
-<!--              :placeholder="null"-->
-<!--              @focus="onFocus(2)"-->
-<!--              @blur="onBlurPhone"-->
-<!--          />-->
-<!--          <n-input-->
-<!--              v-model:value="modelRef.comment"-->
-<!--              type="textarea"-->
-<!--              :autosize="{minRows:3}"-->
-<!--              @keydown.enter.prevent-->
-<!--              round-->
-<!--              size="large"-->
-<!--              :placeholder="null"-->
-<!--              @focus="onFocus(3)"-->
-<!--              @blur="onBlurComment"-->
-<!--          />-->
-<!--          <n-button round type="info" size="large" style="width: 7rem" @click="sendMessage">Send</n-button>-->
-<!--        </n-flex>-->
-
-
-
         <n-grid cols="2" x-gap="20" >
           <n-form-item-gi :span="span[0]" path="name">
             <n-input
@@ -127,11 +80,7 @@
         </n-grid>
         <n-button round type="info" size="large" style="width: 7rem" @click="sendMessage">Send</n-button>
       </n-form>
-
-
     </div>
-
-
 
     <div style="margin-bottom: 2rem">
       <div style="margin-bottom: 1rem;color: #0e1b4d;font-size: 40px;font-weight: bold;text-align: center">Or, get the quotation NOW</div>
@@ -139,8 +88,8 @@
       <div style="margin-bottom: 1rem;color: #0e1b4d;font-size: 15px;text-align: center">Email: Sales@sunrise-moulding.com</div>
     </div>
 
-
     <foot></foot>
+    <n-back-top />
   </div>
 </template>
 
